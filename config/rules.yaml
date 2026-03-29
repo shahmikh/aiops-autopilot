@@ -1,0 +1,43 @@
+# Healing rules — maps anomaly conditions to remediation scripts
+# Priority: higher number = runs first
+
+rules:
+  - name: high_error_rate_restart
+    condition: error_rate_pct > 20
+    action: restart_service
+    script: scripts/restart_service.sh
+    priority: 3
+    cooldown_minutes: 5
+    description: "Restart service when error rate exceeds 20%"
+
+  - name: high_response_time_cache
+    condition: avg_response_ms > 1000
+    action: clear_cache
+    script: scripts/clear_cache.sh
+    priority: 2
+    cooldown_minutes: 3
+    description: "Clear cache when response time exceeds 1000ms"
+
+  - name: high_cpu_throttle
+    condition: avg_cpu > 70
+    action: kill_high_cpu
+    script: scripts/kill_high_cpu.sh
+    priority: 2
+    cooldown_minutes: 5
+    description: "Throttle CPU when usage exceeds 70%"
+
+  - name: high_memory_free
+    condition: avg_memory > 80
+    action: free_memory
+    script: scripts/free_memory.sh
+    priority: 2
+    cooldown_minutes: 5
+    description: "Free memory when usage exceeds 80%"
+
+  - name: moderate_error_scale
+    condition: error_rate_pct > 10
+    action: scale_up
+    script: scripts/scale_up.sh
+    priority: 1
+    cooldown_minutes: 10
+    description: "Scale up service when error rate exceeds 10%"
