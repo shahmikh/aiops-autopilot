@@ -1,4 +1,4 @@
-# 🤖 AIOps Autopilot
+#  AIOps Autopilot
 
 > Autonomous IT Incident Detection & Self-Healing Agent powered by Machine Learning and LLM
 
@@ -10,7 +10,7 @@
 
 ---
 
-## 🔥 What It Does
+##  What It Does
 
 AIOps Autopilot is a production-grade autonomous agent that monitors infrastructure, detects anomalies using ML, diagnoses root causes using an LLM, and executes self-healing scripts — **without any human intervention**.
 ```
@@ -21,7 +21,7 @@ Infrastructure Logs → Elasticsearch → ML Anomaly Detection
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                    AIOps Autopilot                      │
@@ -45,7 +45,7 @@ Infrastructure Logs → Elasticsearch → ML Anomaly Detection
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
 - **ML Anomaly Detection** — Isolation Forest trained on live metrics (CPU, memory, error rate, response time)
 - **LLM Root Cause Analysis** — Groq LLaMA 3.3 70B diagnoses every anomaly with root cause, impact assessment, and remediation steps
@@ -56,7 +56,7 @@ Infrastructure Logs → Elasticsearch → ML Anomaly Detection
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Component | Technology |
 |---|---|
@@ -70,7 +70,7 @@ Infrastructure Logs → Elasticsearch → ML Anomaly Detection
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 - Docker + Docker Compose
@@ -113,17 +113,17 @@ python agent/main.py --fast
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 ```
 aiops-autopilot/
 ├── agent/
-│   ├── main.py              # 🎯 Entry point — autonomous loop
-│   ├── ingestor.py          # 📡 Polls Elasticsearch for metrics
-│   ├── detector.py          # 🧠 Isolation Forest anomaly detection
-│   ├── brain.py             # 🤖 Groq LLM root cause analysis
-│   ├── healer.py            # 🔧 Executes remediation scripts
-│   ├── reporter.py          # 📋 HTML reports + Slack alerts
-│   └── log_generator.py     # 🔄 Simulates infrastructure logs
+│   ├── main.py              #  Entry point — autonomous loop
+│   ├── ingestor.py          #  Polls Elasticsearch for metrics
+│   ├── detector.py          #  Isolation Forest anomaly detection
+│   ├── brain.py             #  Groq LLM root cause analysis
+│   ├── healer.py            #  Executes remediation scripts
+│   ├── reporter.py          #  HTML reports + Slack alerts
+│   └── log_generator.py     #  Simulates infrastructure logs
 ├── scripts/
 │   ├── restart_service.sh   # Restarts a failing service
 │   ├── clear_cache.sh       # Clears service cache
@@ -140,7 +140,7 @@ aiops-autopilot/
 
 ---
 
-## ⚙️ Healing Rules
+##  Healing Rules
 
 The agent uses configurable rules in `config/rules.yaml` to map anomaly conditions to healing actions:
 
@@ -154,7 +154,7 @@ The agent uses configurable rules in `config/rules.yaml` to map anomaly conditio
 
 ---
 
-## 📊 Sample Incident Report
+##  Sample Incident Report
 
 Every detected incident generates an HTML report containing:
 - Anomaly summary with severity classification
@@ -166,7 +166,7 @@ Every detected incident generates an HTML report containing:
 
 ---
 
-## 🔮 Roadmap
+##  Roadmap
 
 - [ ] Prometheus + Grafana integration
 - [ ] Kubernetes pod auto-restart via kubectl
@@ -176,7 +176,7 @@ Every detected incident generates an HTML report containing:
 
 ---
 
-## 👨‍💻 Author
+##  Author
 
 **Syed Shahmikh Ali**
 - GitHub: [@shahmikh](https://github.com/shahmikh)
@@ -185,6 +185,6 @@ Every detected incident generates an HTML report containing:
 
 ---
 
-## 📄 License
+##  License
 
 MIT License — feel free to use, modify, and distribute.
