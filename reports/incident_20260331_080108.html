@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Incident Report — 20260331_080108</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f1117;
+    color: #e0e0e0;
+    padding: 40px 20px;
+  }
+  .container { max-width: 960px; margin: 0 auto; }
+
+  .report-header {
+    background: #1a1d2e;
+    border: 1px solid #2a2d4a;
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .report-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .report-subtitle {
+    color: #888;
+    font-size: 14px;
+    font-family: monospace;
+  }
+  .summary-pills {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .pill {
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 90px;
+  }
+  .pill-num {
+    font-size: 24px;
+    font-weight: 700;
+    display: block;
+  }
+  .pill-lbl {
+    font-size: 11px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .pill-red   { background: rgba(231,76,60,0.15);
+                 border: 1px solid #e74c3c; color: #e74c3c; }
+  .pill-green { background: rgba(39,174,96,0.15);
+                 border: 1px solid #27ae60; color: #27ae60; }
+  .pill-blue  { background: rgba(52,152,219,0.15);
+                 border: 1px solid #3498db; color: #3498db; }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .service-card {
+    background: #1a1d2e;
+    border: 1px solid #2a2d4a;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 12px;
+    margin-bottom: 20px;
+  }
+  .service-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-right: 10px;
+  }
+  .severity-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 4px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .recovery-time {
+    font-size: 13px;
+    color: #888;
+    font-family: monospace;
+  }
+
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .metric {
+    background: #0f1117;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+  }
+  .metric-val {
+    display: block;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    font-family: monospace;
+  }
+  .metric-lbl {
+    display: block;
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #3498db;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 16px 0 8px;
+  }
+  .root-cause {
+    background: #0f1117;
+    border-left: 3px solid #e67e22;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #ccc;
+  }
+  .impact-text {
+    background: #0f1117;
+    border-left: 3px solid #e74c3c;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #ccc;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 8px;
+  }
+  .remediation-list {
+    padding-left: 18px;
+    font-size: 13px;
+    line-height: 2;
+    color: #ccc;
+  }
+  .actions-taken {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .action-item {
+    background: rgba(39,174,96,0.1);
+    border: 1px solid rgba(39,174,96,0.3);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-family: monospace;
+    color: #27ae60;
+  }
+
+  .footer {
+    text-align: center;
+    color: #444;
+    font-size: 12px;
+    margin-top: 40px;
+    font-family: monospace;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="report-header">
+    <div>
+      <div class="report-title">🤖 AIOps Autopilot</div>
+      <div class="report-title" style="font-size:20px;margin-top:4px">
+          Incident Report
+      </div>
+      <div class="report-subtitle" style="margin-top:12px">
+          ID: 20260331_080108<br>
+          Generated: 2026-03-31 08:01:08 UTC
+      </div>
+    </div>
+    <div class="summary-pills">
+      <div class="pill pill-red">
+        <span class="pill-num">5</span>
+        <span class="pill-lbl">Anomalies</span>
+      </div>
+      <div class="pill pill-blue">
+        <span class="pill-num">0</span>
+        <span class="pill-lbl">Actions</span>
+      </div>
+      <div class="pill pill-green">
+        <span class="pill-num">0</span>
+        <span class="pill-lbl">Healed</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Affected Services</div>
+  
+            <div class="service-card">
+                <div class="card-header" style="border-left: 4px solid #e67e22">
+                    <div>
+                        <span class="service-name">auth-service</span>
+                        <span class="severity-badge"
+                              style="background:#e67e22">
+                            HIGH
+                        </span>
+                    </div>
+                    <span class="recovery-time">
+                        ⏱ 10-15 minutes
+                    </span>
+                </div>
+
+                <div class="metrics-row">
+                    <div class="metric">
+                        <span class="metric-val">
+                            33.5%
+                        </span>
+                        <span class="metric-lbl">CPU</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-val">
+                            46.1%
+                        </span>
+                        <span class="metric-lbl">Memory</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-val">
+                            37.5%
+                        </span>
+                        <span class="metric-lbl">Error Rate</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-val">
+                            637ms
+                        </span>
+                        <span class="metric-lbl">Avg Response</span>
+                    </div>
+                </div>
+
+                <div class="section-label">Root Cause</div>
+                <div class="root-cause">
+                    The high error rate of 37.5% in the auth-service suggests that there is an issue with the service's ability to process requests correctly, potentially due to a bug or misconfiguration. This could be related to a recent code change or an external dependency issue. The average response time of 637ms is also slightly elevated, which may indicate that the service is struggling to handle the load.
+                </div>
+
+                <div class="section-label">Impact</div>
+                <div class="impact-text">
+                    This anomaly is likely causing a significant number of users to experience errors when attempting to authenticate, which could lead to frustration and a poor user experience. The high error rate may also indicate a potential security issue if the errors are related to authentication failures.
+                </div>
+
+                <div class="two-col">
+                    <div>
+                        <div class="section-label">Remediation Steps</div>
+                        <ol class="remediation-list"><li>Immediately investigate the auth-service logs to identify the specific error messages and patterns that are contributing to the high error rate.</li><li>Roll back any recent code changes or deployments to see if the issue is resolved, and if so, re-deploy the previous version of the service.</li><li>Increase the logging level and monitoring of the service to gather more detailed information about the errors and potential causes.</li></ol>
+                    </div>
+                    <div>
+                        <div class="section-label">Healing Actions Taken</div>
+                        <div class="actions-taken"><div class='action-item'>ℹ️ No actions taken</div></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="service-card">
+                <div class="card-header" style="border-left: 4px solid #e74c3c">
+                    <div>
+                        <span class="service-name">db-worker</span>
+                        <span class="severity-badge"
+                              style="background:#e74c3c">
+                            CRITICAL
+                        </span>
+                    </div>
+                    <span class="recovery-time">
+                        ⏱ 30-60 minutes
+                    </span>
+                </div>
+
+                <div class="metrics-row">
+                    <div class="metric">
+                        <span class="metric-val">
+                            24.8%
+                        </span>
+                        <span class="metric-lbl">CPU</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-val">
+                            43.5%
+                        </span>
+                        <span class="metric-lbl">Memory</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-val">
+                            38.9%
+                        </span>
+                        <span class="metric-lbl">Error Rate</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-val">
+                            471ms
+                        </span>
+                        <span class="metric-lbl">Avg Response</span>
+                    </div>
+                </div>
+
+                <div class="section-label">Root Cause</div>
+                <div class="root-cause">
+                    The high error rate of 38.9% indicates a significant issue with the db-worker service, likely due to a problem with the database connection or query execution. This could be caused by a recent change in the database schema, a misconfigured query, or an unexpected increase in traffic. The average response time of 471ms also suggests that the service is experiencing performance issues.
+                </div>
+
+                <div class="section-label">Impact</div>
+                <div class="impact-text">
+                    This anomaly is likely causing a significant disruption to users, resulting in a high number of failed requests and potentially leading to data inconsistencies or losses. The system's overall reliability and performance are severely impacted, requiring immediate attention.
+                </div>
+
+                <div class="two-col">
+                    <div>
+                        <div class="section-label">Remediation Steps</div>
+                        <ol class="remediation-list"><li>Investigate recent changes to the database schema, queries, or configuration to identify potential causes of the error rate spike.</li><li>Check the database connection pool and query execution metrics to determine if there are any bottlenecks or issues with resource utilization.</li><li>Implement a temporary workaround, such as increasing the database connection pool size or disabling non-essential queries, to mitigate the error rate and reduce the impact on users.</li></ol>
+                    </div>
+                    <div>
+                        <div class="section-label">Healing Actions Taken</div>
+                        <div class="actions-taken"><div class='action-item'>ℹ️ No actions taken</div></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="service-card">
+                <div class="card-header" style="border-left: 4px solid #e67e22">
+                    <div>
+                        <span class="service-name">api-gateway</span>
+                        <span class="severity-badge"
+                              style="background:#e67e22">
+                            HIGH
+                        </span>
+                    </div>
+                    <span class="recovery-time">
+                        ⏱ 10-15 minutes
+                    </span>
+                </div>
+
+                <div class="metrics-row">
+                    <div class="metric">
+                        <span class="metric-val">
+                            34.9%
+                        </span>
+                        <span class="metric-lbl">CPU</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-val">
+                            46.9%
+                        </span>
+                        <span class="metric-lbl">Memory</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-val">
+                            33.3%
+                        </span>
+                        <span class="metric-lbl">Error Rate</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-val">
+                            609ms
+                        </span>
+                        <span class="metric-lbl">Avg Response</span>
+                    </div>
+                </div>
+
+                <div class="section-label">Root Cause</div>
+                <div class="root-cause">
+                    The high error rate of 33.3% indicates a significant issue with the api-gateway service, likely due to a software bug, misconfiguration, or overload. The average response time of 609ms is also higher than expected, suggesting that the service is struggling to handle requests. This could be caused by a recent change or update to the service.
+                </div>
+
+                <div class="section-label">Impact</div>
+                <div class="impact-text">
+                    Users are likely experiencing a high rate of failed requests, leading to frustration and potential loss of productivity. The system's overall reliability and performance are compromised, which may have a ripple effect on downstream services.
+                </div>
+
+                <div class="two-col">
+                    <div>
+                        <div class="section-label">Remediation Steps</div>
+                        <ol class="remediation-list"><li>Immediately investigate recent changes to the api-gateway service to identify potential causes of the error rate spike.</li><li>Check the service's logs and metrics to determine the nature of the errors and identify any patterns or correlations.</li><li>Roll back any recent changes or updates to the service to a known stable version, if possible, to mitigate the error rate and prevent further degradation.</li></ol>
+                    </div>
+                    <div>
+                        <div class="section-label">Healing Actions Taken</div>
+                        <div class="actions-taken"><div class='action-item'>ℹ️ No actions taken</div></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="service-card">
+                <div class="card-header" style="border-left: 4px solid #e67e22">
+                    <div>
+                        <span class="service-name">cache-service</span>
+                        <span class="severity-badge"
+                              style="background:#e67e22">
+                            HIGH
+                        </span>
+                    </div>
+                    <span class="recovery-time">
+                        ⏱ 10-15 minutes
+                    </span>
+                </div>
+
+                <div class="metrics-row">
+                    <div class="metric">
+                        <span class="metric-val">
+                            26.4%
+                        </span>
+                        <span class="metric-lbl">CPU</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-val">
+                            43.0%
+                        </span>
+                        <span class="metric-lbl">Memory</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-val">
+                            18.5%
+                        </span>
+                        <span class="metric-lbl">Error Rate</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-val">
+                            182ms
+                        </span>
+                        <span class="metric-lbl">Avg Response</span>
+                    </div>
+                </div>
+
+                <div class="section-label">Root Cause</div>
+                <div class="root-cause">
+                    The high error rate of 18.5% in the cache-service suggests that the service is experiencing issues with handling requests, potentially due to a software bug, misconfiguration, or overload. The average response time of 182ms is within acceptable limits, but the error rate indicates a significant problem. The CPU and memory usage are relatively stable, which reduces the likelihood of a resource-related issue.
+                </div>
+
+                <div class="section-label">Impact</div>
+                <div class="impact-text">
+                    This anomaly is likely causing a significant number of failed requests, resulting in a poor user experience and potential data inconsistencies. The high error rate may also lead to increased latency and further degrade the service's performance.
+                </div>
+
+                <div class="two-col">
+                    <div>
+                        <div class="section-label">Remediation Steps</div>
+                        <ol class="remediation-list"><li>Investigate recent code changes or deployments to identify potential causes of the increased error rate.</li><li>Analyze logs and metrics to determine the types of errors occurring and identify any patterns or correlations.</li><li>Roll back recent changes or deploy a previous version of the service to mitigate the issue and restore stability.</li></ol>
+                    </div>
+                    <div>
+                        <div class="section-label">Healing Actions Taken</div>
+                        <div class="actions-taken"><div class='action-item'>ℹ️ No actions taken</div></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="service-card">
+                <div class="card-header" style="border-left: 4px solid #e67e22">
+                    <div>
+                        <span class="service-name">notification-service</span>
+                        <span class="severity-badge"
+                              style="background:#e67e22">
+                            HIGH
+                        </span>
+                    </div>
+                    <span class="recovery-time">
+                        ⏱ 30-60 minutes
+                    </span>
+                </div>
+
+                <div class="metrics-row">
+                    <div class="metric">
+                        <span class="metric-val">
+                            37.6%
+                        </span>
+                        <span class="metric-lbl">CPU</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-val">
+                            48.3%
+                        </span>
+                        <span class="metric-lbl">Memory</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-val">
+                            33.3%
+                        </span>
+                        <span class="metric-lbl">Error Rate</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-val">
+                            625ms
+                        </span>
+                        <span class="metric-lbl">Avg Response</span>
+                    </div>
+                </div>
+
+                <div class="section-label">Root Cause</div>
+                <div class="root-cause">
+                    The high error rate of 33.3% indicates a significant issue with the notification-service, likely due to a software bug, misconfiguration, or overload. The average response time of 625ms is also slightly elevated, which may be contributing to the error rate. The CPU and memory usage are within reasonable limits, suggesting that the issue is not solely related to resource constraints.
+                </div>
+
+                <div class="section-label">Impact</div>
+                <div class="impact-text">
+                    This anomaly is likely causing a substantial number of failed notifications, resulting in a poor user experience and potential business impact. The high error rate may also be causing additional load on the system, leading to a vicious cycle of failures.
+                </div>
+
+                <div class="two-col">
+                    <div>
+                        <div class="section-label">Remediation Steps</div>
+                        <ol class="remediation-list"><li>Immediately investigate the service logs to identify the specific error messages and patterns contributing to the high error rate.</li><li>Roll back any recent code changes or deployments to determine if they are the cause of the issue.</li><li>Increase the logging level and monitoring granularity to gather more detailed information about the errors and system behavior.</li></ol>
+                    </div>
+                    <div>
+                        <div class="section-label">Healing Actions Taken</div>
+                        <div class="actions-taken"><div class='action-item'>ℹ️ No actions taken</div></div>
+                    </div>
+                </div>
+            </div>
+            
+
+  <div class="footer">
+    Generated by AIOps Autopilot &nbsp;·&nbsp;
+    github.com/shahmikh/aiops-autopilot
+  </div>
+
+</div>
+</body>
+</html>
